@@ -1,0 +1,144 @@
+<div id="container">
+	<main>
+		<section id="hero">
+			<div class="hours">
+				<div class="tens">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<div class="units">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+			<div class="minutes">
+				<div class="tens">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<div class="units">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+			<div class="seconds">
+				<div class="tens">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<div class="units">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</div>
+		</section>
+	</main>
+</div>
+
+<script>
+	function binaryClock(): void {
+	  // Helper function to convert a number to a 4-bit binary array
+	  const toBinaryArray = (num: number): number[] =>
+	    num.toString(2).padStart(4, '0').split('').map(Number);
+
+	  const updateClock = (): void => {
+	    const now = new Date();
+
+	    // Get the current time components
+	    const hours = now.getHours();
+	    const minutes = now.getMinutes();
+	    const seconds = now.getSeconds();
+
+	    // Convert time components to binary arrays
+	    const hourTensArray = toBinaryArray(Math.floor(hours / 10));
+	    const hourUnitsArray = toBinaryArray(hours % 10);
+	    const minuteTensArray = toBinaryArray(Math.floor(minutes / 10));
+	    const minuteUnitsArray = toBinaryArray(minutes % 10);
+	    const secondTensArray = toBinaryArray(Math.floor(seconds / 10));
+	    const secondUnitsArray = toBinaryArray(seconds % 10);
+
+	    // Update light classes for each group
+	    const updateLights = (selector: string, binaryArray: number[]): void => {
+	      const elements = document.querySelectorAll(selector);
+	      elements.forEach((el, i) => {
+	        if (binaryArray[i] === 1) {
+	          el.classList.add('on');
+	        } else {
+	          el.classList.remove('on');
+	        }
+	      });
+	    };
+
+	    // Update each section with corresponding binary array
+	    updateLights('.hours .tens > div', hourTensArray);
+	    updateLights('.hours .units > div', hourUnitsArray);
+	    updateLights('.minutes .tens > div', minuteTensArray);
+	    updateLights('.minutes .units > div', minuteUnitsArray);
+	    updateLights('.seconds .tens > div', secondTensArray);
+	    updateLights('.seconds .units > div', secondUnitsArray);
+	  };
+
+	  // Run the clock update every second
+	  setInterval(updateClock, 1000);
+
+	  // Initial call to update the clock
+	  updateClock();
+	}
+
+	// Run the binary clock script when the page is loaded
+	document.addEventListener('DOMContentLoaded', binaryClock);
+</script>
+
+<style>
+	#container {
+		height: 100%;
+		background-color: rgb(37, 37, 37);
+	}
+
+	main {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	#hero {
+		display: flex;
+		align-items: center;
+	}
+
+	#container #hero .hours,
+	#container #hero .minutes,
+	#container #hero .seconds {
+	  display: flex;
+	  gap: 20px;
+	  margin: 0 10px;
+	}
+
+	#container #hero .tens div,
+	#container #hero .units div {
+		width: 40px;
+	  height: 40px;
+	  background-color: rgb(65, 65, 65);
+	  border-radius: 6px;
+		margin-bottom: 20px;
+		transition: 200ms;
+	}
+
+	#container #hero .tens div.on,
+	#container #hero .units div.on {
+		background-color: rgb(233, 86, 18);
+		transition: 200ms;
+	}
+</style>
