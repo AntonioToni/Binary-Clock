@@ -47,13 +47,13 @@
 	</main>
 </div>
 
-<script>
+<script lang="ts">
 	function binaryClock() {
 	  // Helper function to convert a number to a 4-bit binary array
-	  const toBinaryArray = (num: number): number[] =>
+	  const toBinaryArray = (num) => 
 	    num.toString(2).padStart(4, '0').split('').map(Number);
 
-	  const updateClock = (): void => {
+			const updateClock = () => {
 	    const now = new Date();
 
 	    // Get the current time components
@@ -70,7 +70,7 @@
 	    const secondUnitsArray = toBinaryArray(seconds % 10);
 
 	    // Update light classes for each group
-	    const updateLights = (selector: string, binaryArray: number[]): void => {
+	    const updateLights = (selector, binaryArray) => {
 	      const elements = document.querySelectorAll(selector);
 	      elements.forEach((el, i) => {
 	        if (binaryArray[i] === 1) {
